@@ -7,4 +7,5 @@ RUN CGO_ENABLED=0 GOOS=linux go build -o blogger ./cmd/api/main.go
 FROM alpine:latest
 WORKDIR /root/
 COPY --from=builder /app/blogger .
+COPY .env .
 CMD ["./blogger"]
