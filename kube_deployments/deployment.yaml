@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blogger
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blogger
+  template:
+    metadata:
+      labels:
+        app: blogger
+    spec:
+      containers:
+      - name: blogger
+        image: blogger:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+        env:
+        - name: DB_HOST
+          value: "postgres"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USER
+          value: "postgres"
+        - name: DB_PASSWORD
+          value: "postgres"
+        - name: DB_NAME
+          value: "the_blogger"
+        - name: JWT_SECRET
+          value: "solitude"
+        - name: ALLOW_SETUP
+          value: "true"
+        volumeMounts:
+        - name: env-file
+          mountPath: /root/.env
+          subPath: .env
+      volumes:
+      - name: env-file
+        configMap:
+          name: blogger-env
+          
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: blogger
+spec:
+  selector:
+    app: blogger
+  ports:
+  - port: 80
+    targetPort: 8080
+  type: NodePort
