@@ -1,0 +1,29 @@
+app:
+  id: asdfghjkl
+  name: My Theia
+
+demoApplication:
+  name: theiacloud/theia-cloud-demo
+  timeout: "30"
+
+hosts:
+  usePaths: true
+  configuration:
+    baseHost: 12.345.67.89.sslip.io
+
+keycloak:
+  enable: false
+
+operator:
+  cloudProvider: "K8S"
+
+ingress:
+  clusterIssuer: letsencrypt-prod
+  theiaCloudCommonName: false
+  addTLSSecretName: false
+
+operatorrole:
+  name: operator-api-access
+
+servicerole:
+  name: service-api-access
